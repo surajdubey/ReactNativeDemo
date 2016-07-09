@@ -22,6 +22,7 @@ class LoginPage extends Component {
     <View style={styles.container}>
       <TextInput
         placeholder="Username"
+        secureTextEntry={true}
         onChangeText={(username) => this.onUsernameChange(username)}
         />
       <TextInput
@@ -29,7 +30,7 @@ class LoginPage extends Component {
         onChangeText={(password) => this.onPasswordChange(password)}
         />
 
-      <TouchableHighlight onPress={this.onLoginPressed.bind(this)}>
+      <TouchableHighlight onPress={this.onLoginPressed()}>
       <View>
         <Text>Press Me</Text>
         </View>
@@ -49,7 +50,32 @@ class LoginPage extends Component {
 
   onLoginPressed() {
 
-    console.log('You pressed Login');
+    var username = this.state.username;
+    var password = this.state.password;
+
+    if(username.length<5 || password.length < 5) {
+      console.log('Incorrect data');
+    } else {
+      this.loginRequest(username, password);
+    }
+  }
+
+  loginRequest(username, password) {
+    const API_ENPOINT = 'http://192.168.0.145/login';
+    fetch(API_ENPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: {
+        username: username,
+        password: password
+      }
+    })
+    .then((response) => response.json())
+    .then((responseData) => {console.log(JSON.stringify(responseData))})
+    .catch((error) => {console.log(error)})
+    .done();
   }
 }
 
