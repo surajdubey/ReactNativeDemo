@@ -8,6 +8,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
+import MainPage from './MainPage';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class LoginPage extends Component {
     return (
     <View style={styles.container}>
 
-      <Text style={style.error}>{this.state.error}</Text>
+      <Text style={styles.error}>{this.state.error}</Text>
 
       <TextInput
         placeholder="Username"
@@ -37,7 +38,6 @@ class LoginPage extends Component {
         />
 
       <TouchableNativeFeedback
-
         onPress={() => this.onLoginPressed()}>
         <View style={styles.loginButton}>
           <Text>Press Me</Text>
@@ -64,12 +64,12 @@ class LoginPage extends Component {
     if(username.length<5 || password.length < 5) {
       this.setState({error: 'username and password must have atlease 5 characters'});
     } else {
-      this.setState({error:''});
       this.loginRequest(username, password);
     }
   }
 
   loginRequest(username, password) {
+    console.log('inside login request ' + username + ' ' + password);
     const API_ENPOINT = 'http://192.168.0.145:3000/login';
     fetch(API_ENPOINT, {
       method: 'POST',
@@ -83,9 +83,20 @@ class LoginPage extends Component {
       })
     })
     .then((response) => response.json())
-    .then((responseData) => {console.log(JSON.stringify(responseData))})
+    .then((responseData) => {
+      this.handleLoginResponse(responseData);
+    })
     .catch((error) => {console.log(error)})
     .done();
+  }
+
+  handleLoginResponse(responseData) {
+    console.log(JSON.stringify(responseData));
+    if(responseData.success == false) {
+      this.setState({error: 'Please check username and password'});
+    } else {
+      return (<MainPage />);
+    }
   }
 }
 
@@ -108,11 +119,13 @@ const styles = StyleSheet.create({
   loginButton: {
     alignItems: 'center',
     marginTop: 20,
+    height: 50,
+    backgroundColor: 'skyblue'
   },
 
   error: {
     color: 'red',
-    alignItems: center
+    alignItems: 'center'
   }
 });
 

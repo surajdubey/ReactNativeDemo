@@ -34,6 +34,10 @@ class ReactNativeDemo extends Component {
         console.log('login page');
         return (<LoginPage navigator={navigator}/>);
       }
+      if(routeId === 'MainPage') {
+        console.log('Navigating to Main Page');
+        return (<MainPage navigator={navigator}/>);
+      }
   }
 
 }
