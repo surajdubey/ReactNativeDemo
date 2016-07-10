@@ -4,7 +4,7 @@ import {
   AppRegistry,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableNativeFeedback,
   StyleSheet,
   View
 } from 'react-native';
@@ -22,19 +22,24 @@ class LoginPage extends Component {
     <View style={styles.container}>
       <TextInput
         placeholder="Username"
-        secureTextEntry={true}
+        style={styles.inputType}
         onChangeText={(username) => this.onUsernameChange(username)}
+        value={this.state.username}
         />
       <TextInput
         placeholder="Password"
+        secureTextEntry={true}
+        style={styles.inputType}
         onChangeText={(password) => this.onPasswordChange(password)}
         />
 
-      <TouchableHighlight onPress={this.onLoginPressed()}>
+      <TouchableNativeFeedback
+        style={styles.loginButton}
+        onPress={this.onLoginPressed()}>
       <View>
         <Text>Press Me</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableNativeFeedback>
     </View>
     );
   }
@@ -84,7 +89,20 @@ const styles = StyleSheet.create({
   //flex 1 to take up entire height and width
   container: {
     flex: 1,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
     justifyContent: 'center',
+    margin: 20,
+  },
+
+  inputType: {
+    marginTop: 20,
+  },
+
+  loginButton: {
+    alignItems: 'center',
+    marginTop: 20,
   }
 });
 
