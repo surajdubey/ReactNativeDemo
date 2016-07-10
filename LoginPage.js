@@ -13,13 +13,16 @@ class LoginPage extends Component {
   constructor(props) {
     super(props);
     console.log('Login page constructor called');
-    this.state = {username: '', password: ''};
+    this.state = {username: '', password: '', error: ''};
   }
 
   //return view to be rendered
   render() {
     return (
     <View style={styles.container}>
+
+      <Text style={style.error}>{this.state.error}</Text>
+
       <TextInput
         placeholder="Username"
         style={styles.inputType}
@@ -34,10 +37,10 @@ class LoginPage extends Component {
         />
 
       <TouchableNativeFeedback
-        style={styles.loginButton}
-        onPress={this.onLoginPressed()}>
-      <View>
-        <Text>Press Me</Text>
+
+        onPress={() => this.onLoginPressed()}>
+        <View style={styles.loginButton}>
+          <Text>Press Me</Text>
         </View>
       </TouchableNativeFeedback>
     </View>
@@ -59,23 +62,25 @@ class LoginPage extends Component {
     var password = this.state.password;
 
     if(username.length<5 || password.length < 5) {
-      console.log('Incorrect data');
+      this.setState({error: 'username and password must have atlease 5 characters'});
     } else {
+      this.setState({error:''});
       this.loginRequest(username, password);
     }
   }
 
   loginRequest(username, password) {
-    const API_ENPOINT = 'http://192.168.0.145/login';
+    const API_ENPOINT = 'http://192.168.0.145:3000/login';
     fetch(API_ENPOINT, {
       method: 'POST',
       headers: {
-        'Content-Type' : 'application/json',
+        'Content-Type' : 'application/json'
       },
-      body: {
+      body:
+        JSON.stringify({
         username: username,
         password: password
-      }
+      })
     })
     .then((response) => response.json())
     .then((responseData) => {console.log(JSON.stringify(responseData))})
@@ -103,6 +108,11 @@ const styles = StyleSheet.create({
   loginButton: {
     alignItems: 'center',
     marginTop: 20,
+  },
+
+  error: {
+    color: 'red',
+    alignItems: center
   }
 });
 
