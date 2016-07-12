@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableNativeFeedback,
   StyleSheet,
-  View
+  View,
+  AsyncStorage
 } from 'react-native';
 import MainPage from './MainPage';
 
@@ -19,13 +20,14 @@ class LoginPage extends Component {
 
   //return view to be rendered
   render() {
+    var user = 'Some String';
     return (
     <View style={styles.container}>
 
       <Text style={styles.error}>{this.state.error}</Text>
 
       <TextInput
-        placeholder="Username"
+        placeholder={user}
         style={styles.inputType}
         onChangeText={(username) => this.onUsernameChange(username)}
         value={this.state.username}
@@ -95,8 +97,17 @@ class LoginPage extends Component {
     if(responseData.success == false) {
       this.setState({error: 'Please check username and password'});
     } else {
-      return (<MainPage />);
+      //store access token
+      var accessToken = responseData.access_token;
+      AsyncStorage.setItem('accessToken', accessToken).done();
+      this.navigate();
     }
+  }
+
+  navigate() {
+    this.props.navigator.push({
+      name: 'MainPage'
+    });
   }
 }
 

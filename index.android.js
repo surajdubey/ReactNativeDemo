@@ -14,6 +14,7 @@ import {
   Navigator
 } from 'react-native';
 import LoginPage from "./LoginPage";
+import MainPage from './MainPage';
 
 class ReactNativeDemo extends Component {
 
@@ -22,19 +23,18 @@ class ReactNativeDemo extends Component {
       <Navigator
         style={{ flex:1 }}
         initialRoute={{id: 'LoginPage', name: 'LoginPage'}}
-        renderScene={this.renderScene.bind(this)}
+        renderScene={this.renderScene}
        />
     );
   }
 
   renderScene(route, navigator) {
-      var routeId = route.id;
-      console.log('route id ' + routeId );
-      if(routeId === 'LoginPage') {
+      var routeName = route.name;
+      if(routeName === 'LoginPage') {
         console.log('login page');
         return (<LoginPage navigator={navigator}/>);
       }
-      if(routeId === 'MainPage') {
+      if(routeName === 'MainPage') {
         console.log('Navigating to Main Page');
         return (<MainPage navigator={navigator}/>);
       }
