@@ -16,18 +16,15 @@ class MainPage extends Component {
     console.log('MainPage constructor called');
   }
 
-  render() {
+  componentDidMount() {
 
-    AsyncStorage.getItem("accessToken").then(
-      (accessToken) => {
-        this.setState({accessToken: accessToken});
-      }
-    );
+  }
+
+  render() {
     return(
-      <View>
-        <Text> Welcome here {this.state.accessToken} </Text>
-        <UserDataListView />
-      </View>
+        <View>
+            <Text> Welcome here {this.state.accessToken} </Text>
+        </View>
     );
   }
 }

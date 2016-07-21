@@ -16,22 +16,22 @@ class UserDataListView extends Component {
   }
 
   render() {
-
     return (
-      <View style={{paddingTop: 22}}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) =>
-            {
-              <View>
-                <Text>{rowData.firstName}</Text>
-                <Text>{rowData.lastName}</Text>
-              </View>
-            }
-          }
-          />
-      </View>
+        <View>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderRow}
+              />
+        </View>
     );
+  }
+
+  renderRow(rowData) {
+      return (
+          <View>
+            <Text>{rowData.firstName}</Text>
+          </View>
+      );
   }
 }
 

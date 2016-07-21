@@ -15,14 +15,14 @@ import {
 } from 'react-native';
 import LoginPage from "./LoginPage";
 import MainPage from './MainPage';
+import UserDataListView from "./UserDataListView";
 
 class ReactNativeDemo extends Component {
-
   render() {
     return (
       <Navigator
         style={{ flex:1 }}
-        initialRoute={{id: 'LoginPage', name: 'LoginPage'}}
+        initialRoute={{id: 'LoginPage', name: 'UserDataListView'}}
         renderScene={this.renderScene}
        />
     );
@@ -34,9 +34,15 @@ class ReactNativeDemo extends Component {
         console.log('login page');
         return (<LoginPage navigator={navigator}/>);
       }
+
       if(routeName === 'MainPage') {
         console.log('Navigating to Main Page');
         return (<MainPage navigator={navigator}/>);
+      }
+
+      if(routeName == 'UserDataListView') {
+          console.log('Navigating to UserDataListView Page');
+          return (<UserDataListView navigator={navigator}/>);
       }
   }
 
