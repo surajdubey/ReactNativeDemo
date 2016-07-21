@@ -16,10 +16,6 @@ class MainPage extends Component {
     console.log('MainPage constructor called');
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
     return(
         <View>
