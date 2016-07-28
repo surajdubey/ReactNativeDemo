@@ -13,6 +13,7 @@ export default function(state=[], action) {
             });
 
         case LOGIN_RESPONSE:
+            console.log(action.responseData);
             return Object.assign({}, state, {
                 isFetching: false,
                 responseData: action.responseData

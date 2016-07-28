@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware} from 'redux';
 import ReduxPromise from 'redux-promise';
 import thunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
 
 import LoginPage from './LoginPage';
 import MainPage from './MainPage';
@@ -19,20 +20,19 @@ import UserDataListView from './UserDataListView';
 
 import rootReducer from './reducers';
 
-const createStoreWithMiddleware = createStore(thunk)(createStore);
+const storeWithMiddleware = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 class ReactNativeDemo extends Component {
 
   render() {
     return (
-        <Provider store={createStoreWithMiddleware(reducers)}>
+        <Provider store={storeWithMiddleware}>
             <Navigator
                style={{ flex:1 }}
                initialRoute={{id: 'LoginPage', name: 'LoginPage'}}
                renderScene={this.renderScene}
            />
         </Provider>
-
     );
   }
 

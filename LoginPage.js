@@ -12,7 +12,7 @@ import {
 import MainPage from './MainPage';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {loginRequest} from './actions/index';
+import {fetchLoginResponse} from './actions/index';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -69,19 +69,7 @@ class LoginPage extends Component {
     if(username.length<5 || password.length < 5) {
       this.setState({error: 'username and password must have atlease 5 characters'});
     } else {
-      this.props.loginRequest(username, password);
-    }
-  }
-
-  handleLoginResponse(responseData) {
-    console.log(JSON.stringify(responseData));
-    if(responseData.success == false) {
-      this.setState({error: 'Please check username and password'});
-    } else {
-      //store access token
-      var accessToken = responseData.access_token;
-      AsyncStorage.setItem('accessToken', accessToken).done();
-      this.navigate();
+      this.props.fetchLoginResponse(username, password);
     }
   }
 
@@ -93,7 +81,7 @@ class LoginPage extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({loginRequest: loginRequest}, dispatch);
+    return bindActionCreators({fetchLoginResponse: fetchLoginResponse}, dispatch);
 }
 
 //define styles to be used by this View

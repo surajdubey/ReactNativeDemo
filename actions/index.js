@@ -17,7 +17,7 @@ function loginResponse(responseData) {
     }
 }
 
-function fetchLoginResponse(username, password) {
+export function fetchLoginResponse(username, password) {
     return function(dispatch) {
         dispatch(loginRequest(username, password));
 
@@ -34,16 +34,13 @@ function fetchLoginResponse(username, password) {
             })
         })
         .then((response) => response.json())
-        .then((responseData) => dispatch(loginResponse(responseData)));
-
+        .then((responseData) => handleLoginResponse(responseData, dispatch));
     }
 }
 
-export const loginResponse(responseData) {
-    return {
-        type: LOGIN_RESPONSE,
-        payload: responseData
-    }
+function handleLoginResponse(responseData, dispatch) {
+    console.log('inside promise ' + JSON.stringify(responseData));
+    dispatch(loginResponse(responseData));
 }
 
 //   console.log('inside login request ' + username + ' ' + password);
