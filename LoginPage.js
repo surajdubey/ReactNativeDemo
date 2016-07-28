@@ -23,6 +23,11 @@ class LoginPage extends Component {
 
   //return view to be rendered
   render() {
+
+      if(!this.props.loginResponseData.isFetching && this.props.loginResponseData.isCompleted) {
+          return <MainPage navigator={this.props.navigator} />
+      }
+
     var user = 'Some String';
     return (
     <View style={styles.container}>
@@ -74,6 +79,7 @@ class LoginPage extends Component {
   }
 
   navigate() {
+      console.log('inside navigate');
     this.props.navigator.push({
       name: 'MainPage'
     });
@@ -82,6 +88,10 @@ class LoginPage extends Component {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({fetchLoginResponse: fetchLoginResponse}, dispatch);
+}
+
+function mapStateToProps(state) {
+    return { loginResponseData: state.loginResponseData }
 }
 
 //define styles to be used by this View
@@ -115,4 +125,4 @@ const styles = StyleSheet.create({
 
 //JSX style function() { return x} changes to () => x
 AppRegistry.registerComponent('LoginPage', () => LoginPage);
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

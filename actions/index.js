@@ -1,4 +1,3 @@
-
 import config from '../config';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_RESPONSE = "LOGIN_RESPONSE";
@@ -42,23 +41,3 @@ function handleLoginResponse(responseData, dispatch) {
     console.log('inside promise ' + JSON.stringify(responseData));
     dispatch(loginResponse(responseData));
 }
-
-//   console.log('inside login request ' + username + ' ' + password);
-//   const API_ENPOINT = `${config.END_POINT}login`;
-//   const loginResponse = fetch(API_ENPOINT, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type' : 'application/json'
-//     },
-//     body:
-//       JSON.stringify({
-//       username: username,
-//       password: password
-//     })
-// });
-//   .then((response) => response.json())
-//   .then((responseData) => {
-//     this.handleLoginResponse(responseData);
-//   })
-  // .catch((error) => {console.log(error)})
-  // .done();

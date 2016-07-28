@@ -1,11 +1,9 @@
 import {LOGIN_REQUEST, LOGIN_RESPONSE} from '../actions/index';
 
-export default function(state=[], action) {
+const initialState = {isFetching: false, isCompleted: false}
+export default function(state=initialState, action) {
+
     switch (action.type) {
-        // case LOGIN_REQUEST:
-        //     JSON.stringify(action.payload.json())
-        //     console.log("Response received ", );
-        //     return Object.assign({}, state, action.payload);
 
         case LOGIN_REQUEST:
             return Object.assign({}, state, {
@@ -16,6 +14,7 @@ export default function(state=[], action) {
             console.log(action.responseData);
             return Object.assign({}, state, {
                 isFetching: false,
+                isCompleted: true,
                 responseData: action.responseData
             })
 
