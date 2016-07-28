@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -13,18 +7,32 @@ import {
   TouchableNativeFeedback,
   Navigator
 } from 'react-native';
-import LoginPage from "./LoginPage";
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware} from 'redux';
+import ReduxPromise from 'redux-promise';
+import thunk from 'redux-thunk';
+
+import LoginPage from './LoginPage';
 import MainPage from './MainPage';
-import UserDataListView from "./UserDataListView";
+import UserDataListView from './UserDataListView';
+
+import rootReducer from './reducers';
+
+const createStoreWithMiddleware = createStore(thunk)(createStore);
 
 class ReactNativeDemo extends Component {
+
   render() {
     return (
-      <Navigator
-        style={{ flex:1 }}
-        initialRoute={{id: 'LoginPage', name: 'UserDataListView'}}
-        renderScene={this.renderScene}
-       />
+        <Provider store={createStoreWithMiddleware(reducers)}>
+            <Navigator
+               style={{ flex:1 }}
+               initialRoute={{id: 'LoginPage', name: 'LoginPage'}}
+               renderScene={this.renderScene}
+           />
+        </Provider>
+
     );
   }
 

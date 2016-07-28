@@ -10,6 +10,9 @@ import {
   AsyncStorage
 } from 'react-native';
 import MainPage from './MainPage';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {loginRequest} from './actions/index';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -66,30 +69,8 @@ class LoginPage extends Component {
     if(username.length<5 || password.length < 5) {
       this.setState({error: 'username and password must have atlease 5 characters'});
     } else {
-      this.loginRequest(username, password);
+      this.props.loginRequest(username, password);
     }
-  }
-
-  loginRequest(username, password) {
-    console.log('inside login request ' + username + ' ' + password);
-    const API_ENPOINT = 'http://192.168.0.145:3000/login';
-    fetch(API_ENPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body:
-        JSON.stringify({
-        username: username,
-        password: password
-      })
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-      this.handleLoginResponse(responseData);
-    })
-    .catch((error) => {console.log(error)})
-    .done();
   }
 
   handleLoginResponse(responseData) {
@@ -109,6 +90,10 @@ class LoginPage extends Component {
       name: 'MainPage'
     });
   }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({loginRequest: loginRequest}, dispatch);
 }
 
 //define styles to be used by this View
@@ -142,4 +127,4 @@ const styles = StyleSheet.create({
 
 //JSX style function() { return x} changes to () => x
 AppRegistry.registerComponent('LoginPage', () => LoginPage);
-module.exports = LoginPage;
+export default connect(null, mapDispatchToProps)(LoginPage);
