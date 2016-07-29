@@ -17,21 +17,22 @@ function listDataResponse(listData) {
     }
 }
 
-function handleListDataResponse(responseData) {
-    console.log('List Data response is ' + responseData);
-    dispatch(listDataResponse(responseData));
-}
-
 export function fetchListData(accessToken) {
     return function(dispatch) {
         dispatch(listDataRequest(accessToken));
 
-        const url = `${config.ENDPOINT}dummy_list_data`;
+        const url = `${config.END_POINT}dummy_list_data`;
 
         return fetch(url, {
             method: 'POST'
         })
         .then((response) => response.json())
-        .then((responseData) => handleListDataResponse(responseData));
+        .then((responseData) => handleListDataResponse(responseData, dispatch));
     }
+}
+
+
+function handleListDataResponse(responseData, dispatch) {
+    console.log('List Data response is ' + responseData);
+    dispatch(listDataResponse(responseData));
 }

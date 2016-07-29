@@ -24,9 +24,7 @@ class MainPage extends Component {
   }
 
   componentDidMount() {
-      console.log('Mainpage componentDidMount');
-
-
+      console.log('Mainpage componentDidMount')
   }
 
   render() {
