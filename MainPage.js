@@ -5,7 +5,8 @@ import {
   Text,
   Navigator,
   View,
-  ListView
+  ListView,
+  ProgressBar
 } from 'react-native';
 import UserDataListView from './UserDataListView';
 import { bindActionCreators } from 'redux';
@@ -17,10 +18,10 @@ class MainPage extends Component {
     super(props);
     console.log('MainPage constructor called');
 
-      AsyncStorage.getItem('accessToken', (err, accessToken) => {
-          console.log('Access token fetched');
-          this.props.fetchListData(accessToken);
-      });
+    AsyncStorage.getItem('accessToken', (err, accessToken) => {
+      console.log('Access token fetched');
+      this.props.fetchListData(accessToken);
+    });
   }
 
   componentDidMount() {
@@ -28,16 +29,35 @@ class MainPage extends Component {
   }
 
   render() {
+
       if(!this.props.listData.isFetching && this.props.listData.isCompleted) {
-          console.log('Data received');
-          console.log(JSON.stringify(this.props.listData.listData));
+        //ProgressBar should be dismissed here
+        console.log('Data received');
+        console.log(JSON.stringify(this.props.listData.listData));
+
+        return(
+            <View>
+                <Text> Welcome here </Text>
+            </View>
+        );
       }
 
+      if(this.props.listData.isFetching) {
+          //Ideally ProgressBar should be displayed here
+          return (
+            <View>
+                <Text>Data is loading</Text>
+            </View>
+        );
+    }
+
+    //to be called before API request is made
     return(
         <View>
-            <Text> Welcome here </Text>
+            <Text>This is initial state</Text>
         </View>
     );
+
   }
 }
 

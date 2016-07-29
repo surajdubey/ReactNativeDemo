@@ -29,10 +29,7 @@ class LoginPage extends Component {
           //fetch access token
           var accessToken = this.props.loginResponseData.responseData.access_token;
           console.log('access token is ' + accessToken);
-          this.saveAccessToken(accessToken, function(){
-
-          });
-
+          this.saveAccessToken(accessToken);
       }
 
     var user = 'Some String';
@@ -73,7 +70,7 @@ class LoginPage extends Component {
     this.setState({password: password});
   }
 
-  saveAccessToken(accessToken, callback) {
+  saveAccessToken(accessToken) {
       AsyncStorage.setItem('access_token', accessToken, ()=> {
           this.navigate();
       });
