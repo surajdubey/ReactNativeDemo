@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 import UserDataListView from './UserDataListView';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { fetchListData } from './actions/action_list_data';
 
 class MainPage extends Component {
   constructor(props) {
     super(props);
     console.log('MainPage constructor called');
+
   }
 
   componentDidMount() {
@@ -47,7 +48,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return {listData: store.listData};
+    return {listData: state.listData};
 }
 
 AppRegistry.registerComponent('MainPage', () => MainPage);

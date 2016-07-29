@@ -19,6 +19,7 @@ class LoginPage extends Component {
     super(props);
     console.log('Login page constructor called');
     this.state = {username: '', password: '', error: ''};
+    this.navigate = this.navigate.bind(this);
   }
 
   //return view to be rendered
@@ -28,8 +29,8 @@ class LoginPage extends Component {
           //fetch access token
           var accessToken = this.props.loginResponseData.responseData.access_token;
           console.log('access token is ' + accessToken);
-          AsyncStorage.setItem('access_token', accessToken, ()=> {
-              return <MainPage navigator={this.props.navigator} />
+          this.saveAccessToken(accessToken, function(){
+
           });
 
       }
@@ -73,7 +74,9 @@ class LoginPage extends Component {
   }
 
   saveAccessToken(accessToken, callback) {
-
+      AsyncStorage.setItem('access_token', accessToken, ()=> {
+          this.navigate();
+      });
   }
 
   onLoginPressed() {
