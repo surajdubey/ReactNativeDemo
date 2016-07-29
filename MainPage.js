@@ -35,9 +35,11 @@ class MainPage extends Component {
         console.log('Data received');
         console.log(JSON.stringify(this.props.listData.listData));
 
+        var listData = this.props.listData.listData;
         return(
             <View>
                 <Text> Welcome here </Text>
+                <UserDataListView listData={listData} />
             </View>
         );
       }
@@ -54,7 +56,7 @@ class MainPage extends Component {
     //to be called before API request is made
     return(
         <View>
-            <Text>This is initial state</Text>
+            <Text>This is initial view before API call</Text>
         </View>
     );
 

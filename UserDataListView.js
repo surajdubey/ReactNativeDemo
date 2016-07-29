@@ -10,19 +10,17 @@ class UserDataListView extends Component {
     constructor(props) {
         super(props);
 
-        var testData = [{"data":"Data 1"},
-                        {"data":"Data 2"},
-                        {"data":"Data 3"}];
+        var listDataArray = this.props.listData.array;
         this.state = {
-          dataSource: ds.cloneWithRows(testData),
-          listValues : ''
+          dataSource: ds.cloneWithRows(listDataArray),
+          listValues : listDataArray
         };
 
     }
 
-    componentDidMount() {
-        this.fetchListData();
-    }
+    // componentDidMount() {
+    //     this.fetchListData();
+    // }
 
     render() {
         return (
@@ -58,29 +56,6 @@ class UserDataListView extends Component {
         // console.log(sectionID + ' ' + rowID + ' clicked ');
     }
 
-    fetchListData() {
-        console.log('fetching list data');
-        var url = config.END_POINT + "dummy_list_data";
-        fetch(url, {
-            method:'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            }
-        })
-        .then((response) => response.json())
-        .then((responseData) => {
-            this.handleListData(responseData)
-        })
-        .catch((error) => {console.log(error)})
-        .done();
-    }
-
-    handleListData(listData) {
-        this.setState({
-            dataSource: ds.cloneWithRows(listData.array),
-            listData: listData
-        });
-    }
 }
 
 AppRegistry.registerComponent('UserDataListView', () => UserDataListView);
