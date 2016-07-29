@@ -36,6 +36,7 @@ class MainPage extends Component {
         console.log(JSON.stringify(this.props.listData.listData));
 
         var listData = this.props.listData.listData;
+        console.log(listData.array);
         return(
             <View>
                 <Text> Welcome here </Text>
