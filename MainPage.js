@@ -25,5 +25,9 @@ class MainPage extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+
+}
+
 AppRegistry.registerComponent('MainPage', () => MainPage);
 module.exports = MainPage;
