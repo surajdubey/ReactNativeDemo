@@ -25,7 +25,13 @@ class LoginPage extends Component {
   render() {
 
       if(!this.props.loginResponseData.isFetching && this.props.loginResponseData.isCompleted) {
-          return <MainPage navigator={this.props.navigator} />
+          //fetch access token
+          var accessToken = this.props.loginResponseData.responseData.access_token;
+          console.log('access token is ' + accessToken);
+          AsyncStorage.setItem('access_token', accessToken, ()=> {
+              return <MainPage navigator={this.props.navigator} />
+          });
+
       }
 
     var user = 'Some String';
@@ -64,6 +70,10 @@ class LoginPage extends Component {
 
   onPasswordChange(password) {
     this.setState({password: password});
+  }
+
+  saveAccessToken(accessToken, callback) {
+
   }
 
   onLoginPressed() {

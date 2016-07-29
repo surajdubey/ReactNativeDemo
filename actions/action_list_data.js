@@ -1,16 +1,18 @@
-import config from './config';
+import config from '../config';
 export const FETCH_LIST_DATA = 'FETCH_LIST_DATA';
+export const LIST_DATA_REQUEST = 'LIST_DATA_REQUEST';
+export const LIST_DATA_RESPONSE = 'LIST_DATA_RESPONSE';
 
 function listDataRequest(accessToken) {
     return {
-        type: 'LIST_DATA_REQUEST',
+        type: LIST_DATA_REQUEST,
         payload: accessToken
     }
 }
 
 function listDataResponse(listData) {
     return {
-        type: 'LIST_DATA_RESPONSE',
+        type: LIST_DATA_RESPONSE,
         listData: listData
     }
 }
