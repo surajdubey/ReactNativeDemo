@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    ListView, View, AppRegistry, Text, TouchableNativeFeedback, TouchableHighlight
+    ListView, View, AppRegistry, Text, TouchableNativeFeedback, TouchableHighlight, StyleSheet
 } from 'react-native';
 import config from './config';
 
@@ -18,10 +18,6 @@ class UserDataListView extends Component {
 
     }
 
-    // componentDidMount() {
-    //     this.fetchListData();
-    // }
-
     render() {
         return (
             <View>
@@ -37,7 +33,7 @@ class UserDataListView extends Component {
         return (
             <TouchableHighlight
                 onPress={() => this.deleteSelectedRow(rowID)}>
-                <View>
+                <View style={styles.listItem}>
                     <Text>{rowData.data}</Text>
                 </View>
             </TouchableHighlight>
@@ -45,8 +41,8 @@ class UserDataListView extends Component {
     }
 
     deleteSelectedRow(rowID) {
-        var listData = this.state.listData;
-        delete (listData.array)[rowID];
+        var listData = this.state.listValues;
+        listData.splice(rowID, 1);
 
         console.log('Updated Data ' + JSON.stringify(listData) );
         this.setState({
@@ -57,6 +53,12 @@ class UserDataListView extends Component {
     }
 
 }
+
+var styles = StyleSheet.create({
+    listItem: {
+        margin: 20,
+    }
+});
 
 AppRegistry.registerComponent('UserDataListView', () => UserDataListView);
 module.exports = UserDataListView;
