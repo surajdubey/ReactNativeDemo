@@ -17,22 +17,22 @@ class MainPage extends Component {
     super(props);
     console.log('MainPage constructor called');
 
+      AsyncStorage.getItem('accessToken', (err, accessToken) => {
+          console.log('Access token fetched');
+          this.props.fetchListData(accessToken);
+      });
   }
 
   componentDidMount() {
       console.log('Mainpage componentDidMount');
 
-      AsyncStorage.getItem('accessToken', (err, accessToken) => {
-          console.log('Access token fetched');
-          this.fetchListData(accessToken);
-      })
 
   }
 
   render() {
-      if(!this.props.listDataResponse.isFetching && this.props.listDataResponse.isCompleted) {
+      if(!this.props.listData.isFetching && this.props.listData.isCompleted) {
           console.log('Data received');
-          console.log(JSON.stringify(this.props.listDataResponse.listData));
+          console.log(JSON.stringify(this.props.listData.listData));
       }
 
     return(
@@ -48,7 +48,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return {listData: state.listData};
+    return {listData: state.listDataResponse};
 }
 
 AppRegistry.registerComponent('MainPage', () => MainPage);

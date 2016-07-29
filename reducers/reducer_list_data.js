@@ -1,6 +1,7 @@
 import {FETCH_LIST_DATA, LIST_DATA_REQUEST, LIST_DATA_RESPONSE} from '../actions/action_list_data';
 
-function listDataReducer(state = [], action) {
+const initialState = {isFetching: false, isCompleted: false};
+function listDataReducer(state = initialState, action) {
     switch(action.type) {
         case FETCH_LIST_DATA:
             return Object.assign({}, state, {
