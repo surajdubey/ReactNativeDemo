@@ -24,10 +24,6 @@ class MainPage extends Component {
     });
   }
 
-  componentDidMount() {
-      console.log('Mainpage componentDidMount')
-  }
-
   render() {
 
       if(!this.props.listData.isFetching && this.props.listData.isCompleted) {
@@ -35,12 +31,12 @@ class MainPage extends Component {
         console.log('Data received');
         console.log(JSON.stringify(this.props.listData.listData));
 
+        // var listData = this.props.listData.listData;
         var listData = this.props.listData.listData;
-        console.log(listData.array);
         return(
             <View>
-                <Text> Welcome here </Text>
-                <UserDataListView listData={listData} />
+                <Text> Welcome here</Text>
+                <UserDataListView data={listData} />
             </View>
         );
       }

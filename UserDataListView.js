@@ -9,26 +9,42 @@ import { bindActionCreators } from 'redux';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
 var isDataDeleted = false;
-
 class UserDataListView extends Component {
 
     constructor(props) {
         super(props);
-        var listDataArray = this.props.listData.array;
+        console.log(JSON.stringify(this.props));
+        var listDataArray = this.props.data.array;
+        console.log(listDataArray);
         this.state = {
           dataSource: ds.cloneWithRows(listDataArray),
           listValues : listDataArray
         };
+        this.deleteSelectedRowFromState = this.deleteSelectedRowFromState.bind(this);
+    }
+
+    componentDidMount() {
+        console.log('inside componentDidMount');
     }
 
     render() {
 
-        if(!this.props.listData.isFetching && this.props.listData.isCompleted && !isDataDeleted) {
+        if(this.props.listData.isFetchingForDeletion==false &&
+            this.props.listData.isCompletedForDeletion==true && isDataDeleted==false) {
             //delete retrieved rowID
+            console.log('inside delete condition');
             var rowID = this.props.listData.rowIDToDelete;
-            deleteSelectedRowFromState(rowID);
+            console.log('rowID ' + rowID);
+            this.deleteSelectedRowFromState(rowID);
         }
 
+        // if(isDataDeleted) {
+        //     return(<View>
+        //         <Text> Background operation </Text>
+        //         </View>)
+        // }
+
+        if(isDataDeleted) {
         return (
             <View>
                 <ListView
@@ -36,7 +52,13 @@ class UserDataListView extends Component {
                   renderRow={this.renderRow.bind(this)}
                   />
             </View>
-        );
+        )};
+
+        return(
+            <View>
+                <Text> This is initial state </Text>
+            </View>
+        )
     }
 
     renderRow(rowData, sectionID, rowID) {
@@ -52,15 +74,18 @@ class UserDataListView extends Component {
 
     sendDeleteRequest(rowID) {
         isDataDeleted = false;
-        this.deleteListData(rowID);
+        this.props.deleteListData(rowID);
     }
 
     deleteSelectedRowFromState(rowID) {
+
+        //send action to reducer to update this state
+        //it will return updated list data which will be rendered
         var listData = this.state.listValues;
         listData.splice(rowID, 1);
 
         console.log('Updated Data ' + JSON.stringify(listData) );
-        this.isDataDeleted = true;
+        isDataDeleted = true;
 
         this.setState({
             dataSource: ds.cloneWithRows(listData),
@@ -77,7 +102,7 @@ var styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    return { listData: state.listData }
+    return { listData: state.listDataResponse }
 }
 
 function mapDispatchToProps(dispatch) {
