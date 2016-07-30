@@ -15,8 +15,8 @@ class UserDataListView extends Component {
         super(props);
         console.log(JSON.stringify(this.props));
 
-        var listDataArray = this.props.listData;
-        console.log(listDataArray);
+        var listDataArray = this.props.listData.array;
+        console.log('inside constructor list data array is ' + listDataArray);
 
     }
 
@@ -37,7 +37,7 @@ class UserDataListView extends Component {
         return (
             <View>
                 <ListView
-                  dataSource={ds.cloneWithRows(this.props.listData)}
+                  dataSource={ds.cloneWithRows(this.props.listData.array)}
                   renderRow={this.renderRow.bind(this)}
                   />
             </View>
@@ -68,7 +68,7 @@ var styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    return { listData: state.listDataResponse.listData.array,
+    return { listData: state.listDataResponse.listData,
                 rowIDToDelete: state.listDataResponse.rowIDToDelete,
                 listDataResponse: state.listDataResponse}
 }

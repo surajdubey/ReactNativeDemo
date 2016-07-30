@@ -38,7 +38,8 @@ function listDataReducer(state = initialState, action) {
 
             //can alternatively fetch data from this.state.listDataResponse as well
             var listData = action.listData;
-            listData.splice(rowIDToDelete, 1);
+            var listDataArray = listData.array;
+            listDataArray.splice(rowIDToDelete, 1);
 
             return Object.assign({}, state, {
                 isFetchingForDeletion: false,
