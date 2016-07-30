@@ -24,7 +24,6 @@ class LoginPage extends Component {
 
   //return view to be rendered
   render() {
-
       if(!this.props.loginResponseData.isFetching && this.props.loginResponseData.isCompleted) {
           //fetch access token
           var accessToken = this.props.loginResponseData.responseData.access_token;

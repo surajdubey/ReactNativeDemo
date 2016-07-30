@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {
-    ListView, View, AppRegistry, Text, TouchableNativeFeedback, TouchableHighlight, StyleSheet
+    ListView, View, AppRegistry, Text, TouchableNativeFeedback, TouchableHighlight, StyleSheet, AsyncStorage
 } from 'react-native';
 import config from './config';
 import { deleteListData } from './actions/action_list_data';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { fetchListData } from './actions/action_list_data';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
 var isDataDeleted = false;
@@ -13,16 +14,16 @@ class UserDataListView extends Component {
 
     constructor(props) {
         super(props);
-        console.log(JSON.stringify(this.props));
-
-        var listDataArray = this.props.listData.array;
-        console.log('inside constructor list data array is ' + listDataArray);
-
     }
 
-    componentDidMount() {
-        console.log('inside componentDidMount');
+    componentWillMount() {
+      console.log('UserDataListView: componentWillMount called');
+      AsyncStorage.getItem('accessToken', (err, accessToken) => {
+        console.log('MainPage: Access token fetched');
+        this.props.fetchListData(accessToken);
+      });
     }
+
 
     render() {
 
@@ -34,14 +35,27 @@ class UserDataListView extends Component {
             console.log('rowID ' + rowID);
         }
 
+        if(this.props.listDataResponse.isFetching==true &&
+            this.props.listDataResponse.isCompleted==true) {
+            return(<View><Text>About to fetch data</Text></View>)
+        }
+
+        if(this.props.listDataResponse.isFetching==false &&
+            this.props.listDataResponse.isCompleted==true) {
+            return (
+                <View>
+                    <ListView
+                      dataSource={ds.cloneWithRows(this.props.listData.array)}
+                      renderRow={this.renderRow.bind(this)}
+                      />
+                </View>
+            );
+        }
+
         return (
-            <View>
-                <ListView
-                  dataSource={ds.cloneWithRows(this.props.listData.array)}
-                  renderRow={this.renderRow.bind(this)}
-                  />
-            </View>
+            <View><Text>Data will load soon</Text></View>
         );
+
     }
 
     renderRow(rowData, sectionID, rowID) {
@@ -74,7 +88,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ deleteListData: deleteListData }, dispatch);
+    return bindActionCreators({ deleteListData: deleteListData, fetchListData: fetchListData }, dispatch);
 }
 
 AppRegistry.registerComponent('UserDataListView', () => UserDataListView);

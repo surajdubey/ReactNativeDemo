@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableNativeFeedback,
-  Navigator
+  Navigator,
+  AsyncStorage
 } from 'react-native';
 
 import { Provider } from 'react-redux';
@@ -24,16 +25,45 @@ const storeWithMiddleware = createStore(rootReducer, applyMiddleware(thunkMiddle
 
 class ReactNativeDemo extends Component {
 
-  render() {
-    return (
-        <Provider store={storeWithMiddleware}>
-            <Navigator
-               style={{ flex:1 }}
-               initialRoute={{id: 'LoginPage', name: 'LoginPage'}}
-               renderScene={this.renderScene}
-           />
-        </Provider>
-    );
+    constructor(props) {
+        super(props);
+
+    }
+
+    componentWillMount() {
+        console.log('Called componentWillMount');
+        this.setState({'pageToRoute': ''});
+        AsyncStorage.getItem('access_token', (error, accessToken) => {
+            console.log('access token ' + accessToken);
+          if(accessToken == null) {
+              this.setState({'pageToRoute' : 'LoginPage'});
+          } else {
+              this.setState({'pageToRoute' : 'MainPage'});
+          }
+        });
+    }
+
+    render() {
+        if(this.state.pageToRoute == 'null' || this.state.pageToRoute == '') {
+            return (
+                <View>
+                    <Text>App is loading </Text>
+                </View>
+            );
+        }
+
+        //check if access token is available in AsyncStorage
+        return (
+          <Provider store={storeWithMiddleware}>
+              <Navigator
+                 style={{ flex:1 }}
+                 initialRoute={{id: 'LoginPage', name: this.state.pageToRoute}}
+                 renderScene={this.renderScene}
+             />
+          </Provider>
+        );
+
+
   }
 
   renderScene(route, navigator) {
