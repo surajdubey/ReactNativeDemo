@@ -14,13 +14,13 @@ class UserDataListView extends Component {
     constructor(props) {
         super(props);
         console.log(JSON.stringify(this.props));
-        var listDataArray = this.props.data.array;
+
+        var listDataArray = this.props.listData;
         console.log(listDataArray);
-        this.state = {
-          dataSource: ds.cloneWithRows(listDataArray),
-          listValues : listDataArray
-        };
-        this.deleteSelectedRowFromState = this.deleteSelectedRowFromState.bind(this);
+        // this.state = {
+        //   dataSource: ds.cloneWithRows(listDataArray),
+        //   listValues : listDataArray,
+        // };
     }
 
     componentDidMount() {
@@ -30,35 +30,22 @@ class UserDataListView extends Component {
     render() {
 
         if(this.props.listData.isFetchingForDeletion==false &&
-            this.props.listData.isCompletedForDeletion==true && isDataDeleted==false) {
+            this.props.listData.isCompletedForDeletion==true) {
             //delete retrieved rowID
             console.log('inside delete condition');
-            var rowID = this.props.listData.rowIDToDelete;
+            var rowID = this.props.rowIDToDelete;
             console.log('rowID ' + rowID);
-            this.deleteSelectedRowFromState(rowID);
+            // this.props.deleteListDataResponse(this.props.listData.rowID);
         }
 
-        // if(isDataDeleted) {
-        //     return(<View>
-        //         <Text> Background operation </Text>
-        //         </View>)
-        // }
-
-        if(isDataDeleted) {
         return (
             <View>
                 <ListView
-                  dataSource={this.state.dataSource}
+                  dataSource={ds.cloneWithRows(this.props.listData)}
                   renderRow={this.renderRow.bind(this)}
                   />
             </View>
-        )};
-
-        return(
-            <View>
-                <Text> This is initial state </Text>
-            </View>
-        )
+        );
     }
 
     renderRow(rowData, sectionID, rowID) {
@@ -73,24 +60,14 @@ class UserDataListView extends Component {
     }
 
     sendDeleteRequest(rowID) {
-        isDataDeleted = false;
-        this.props.deleteListData(rowID);
+        console.log('rowID deleteListData ' + rowID);
+        this.props.deleteListData(this.props.listData, rowID);
     }
 
     deleteSelectedRowFromState(rowID) {
 
         //send action to reducer to update this state
         //it will return updated list data which will be rendered
-        var listData = this.state.listValues;
-        listData.splice(rowID, 1);
-
-        console.log('Updated Data ' + JSON.stringify(listData) );
-        isDataDeleted = true;
-
-        this.setState({
-            dataSource: ds.cloneWithRows(listData),
-            listData: listData
-        });
 
     }
 }
@@ -102,7 +79,8 @@ var styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    return { listData: state.listDataResponse }
+    return { listData: state.listDataResponse.listData.array,
+                rowIDToDelete: state.listDataResponse.rowIDToDelete}
 }
 
 function mapDispatchToProps(dispatch) {

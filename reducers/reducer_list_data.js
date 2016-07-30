@@ -32,11 +32,20 @@ function listDataReducer(state = initialState, action) {
             });
 
         case DELETE_LIST_DATA_RESPONSE:
+
+            //delete list data at rowID
+            var rowIDToDelete = action.rowIDToDelete;
+
+            //can alternatively fetch data from this.state.listDataResponse as well
+            var listData = action.listData;
+            listData.splice(rowIDToDelete, 1);
+
             return Object.assign({}, state, {
                 isFetchingForDeletion: false,
                 isCompletedForDeletion: true,
                 deleteResponseData: action.responseData,
-                rowIDToDelete: action.rowIDToDelete
+                rowIDToDelete: action.rowIDToDelete,
+                listData: listData
             });
     }
 
